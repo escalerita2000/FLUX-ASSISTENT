@@ -1,0 +1,18 @@
+{
+  "name": "FLUX Asistencia",
+  "short_name": "FLUX",
+  "description": "Sistema de marcado biométrico de asistencia offline-first",
+  "start_url": "/asistencia",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#6366F1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
