@@ -1,0 +1,18 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Se ejecuta cada 3 días a las 00:00 UTC (Suficiente para evitar la pausa de 7 días de inactividad)
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Permite disparar el flujo de forma manual desde la interfaz de GitHub Actions
+
+jobs:
+  ping:
+    name: Ping Supabase REST Endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send API request to Supabase
+        run: |
+          curl -i -X GET "https://xzyzymscsespapcduktl.supabase.co/rest/v1/puntos_asistencia?limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY || 'sb_publishable_uy2RAxaHOLmKbxEc6Nq_TA_7xGanLde' }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY || 'sb_publishable_uy2RAxaHOLmKbxEc6Nq_TA_7xGanLde' }}"

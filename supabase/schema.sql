@@ -14,13 +14,16 @@ CREATE TABLE public.empleados (
 -- Indexar código de vinculación para búsquedas rápidas
 CREATE INDEX idx_empleados_codigo_vinculacion ON public.empleados(codigo_vinculacion);
 
--- 2. Tabla de Dispositivos Vinculados
+-- 2. Tabla de Dispositivos Vinculados (WebAuthn / Passkeys)
 CREATE TABLE public.dispositivos (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     empleado_id UUID REFERENCES public.empleados(id) ON DELETE CASCADE UNIQUE, -- Un dispositivo por empleado
-    device_uuid TEXT UNIQUE NOT NULL, -- UUID generado en el móvil
+    device_uuid TEXT UNIQUE NOT NULL, -- UUID generado en el navegador del celular
     modelo TEXT,
     os_version TEXT,
+    credential_id TEXT UNIQUE,
+    credential_public_key TEXT,
+    counter INTEGER DEFAULT 0 NOT NULL,
     vinculado_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -36,6 +39,17 @@ CREATE TABLE public.puntos_asistencia (
     radio_metros DOUBLE PRECISION DEFAULT 15.0 NOT NULL, -- Margen de error por defecto (ej. 15 metros)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- 3.5 Tabla de Desafíos WebAuthn (para autenticación sin estado en Edge Functions)
+CREATE TABLE public.webauthn_challenges (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    empleado_id UUID REFERENCES public.empleados(id) ON DELETE CASCADE,
+    challenge TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    expires_at TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+CREATE INDEX idx_webauthn_challenges_empleado ON public.webauthn_challenges(empleado_id);
 
 -- 4. Tabla de Registros de Asistencia
 CREATE TABLE public.registros_asistencia (
@@ -65,7 +79,9 @@ CREATE OR REPLACE FUNCTION public.vincular_dispositivo(
     p_codigo_vinculacion TEXT,
     p_device_uuid TEXT,
     p_modelo TEXT,
-    p_os_version TEXT
+    p_os_version TEXT,
+    p_credential_id TEXT,
+    p_credential_public_key TEXT
 )
 RETURNS TABLE (
     success BOOLEAN,
@@ -103,10 +119,16 @@ BEGIN
     END IF;
 
     -- Registrar o actualizar la vinculación del dispositivo
-    INSERT INTO public.dispositivos (empleado_id, device_uuid, modelo, os_version)
-    VALUES (v_empleado_id, p_device_uuid, p_modelo, p_os_version)
+    INSERT INTO public.dispositivos (empleado_id, device_uuid, modelo, os_version, credential_id, credential_public_key)
+    VALUES (v_empleado_id, p_device_uuid, p_modelo, p_os_version, p_credential_id, p_credential_public_key)
     ON CONFLICT (empleado_id) 
-    DO UPDATE SET device_uuid = p_device_uuid, modelo = p_modelo, os_version = p_os_version, vinculado_at = now();
+    DO UPDATE SET 
+        device_uuid = p_device_uuid, 
+        modelo = p_modelo, 
+        os_version = p_os_version, 
+        credential_id = p_credential_id, 
+        credential_public_key = p_credential_public_key, 
+        vinculado_at = now();
 
     RETURN QUERY SELECT TRUE, 'Dispositivo vinculado correctamente.'::TEXT, v_nombre, v_entrada, v_salida, v_dias;
 END;
