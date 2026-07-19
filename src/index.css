@@ -228,3 +228,310 @@ body {
 @keyframes loading {
   to { background-position: -200% 0; }
 }
+
+/* =========================================================================
+   ESTILOS PARA EL PANEL DE ADMINISTRACIÓN
+   ========================================================================= */
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #0F172A;
+  color: #F8FAFC;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #1E293B;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #0F172A;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: transparent;
+  color: #94A3B8;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+  color: #6366F1;
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.admin-main {
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tablas de Datos */
+.table-card {
+  background-color: #1E293B;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.table-header-bar {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  padding: 16px 24px;
+  background-color: rgba(255, 255, 255, 0.02);
+  color: #94A3B8;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 14px;
+  color: #E2E8F0;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+/* Badges / Etiquetas */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge.success {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #34D399;
+}
+
+.badge.danger {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #FCA5A5;
+}
+
+.badge.warning {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #FBBF24;
+}
+
+/* Form Panel */
+.form-panel {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-control {
+  background-color: #0F172A;
+  border: 1px solid #334155;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #6366F1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Modales */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-card {
+  background-color: #1E293B;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Buscador e Inputs */
+.search-control {
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+}
+
+.search-control input {
+  padding-left: 40px;
+}
+
+.search-control svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748B;
+}
+
+/* Utilidades adicionales */
+.text-muted {
+  color: #64748B;
+}
+
+.btn-secondary {
+  background-color: #334155;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+}
+
+.btn-danger-outline {
+  background-color: rgba(239, 68, 68, 0.08);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger-outline:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: #EF4444;
+}
+
+.btn-icon {
+  background: transparent;
+  color: #64748B;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
