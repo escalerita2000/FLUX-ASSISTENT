@@ -127,6 +127,11 @@ body {
   box-sizing: border-box;
 }
 
+/* Los hijos directos del overlay que contienen botones deben ser interactivos */
+.scanner-overlay > * {
+  pointer-events: auto;
+}
+
 .scanner-frame {
   position: absolute;
   top: 50%;
